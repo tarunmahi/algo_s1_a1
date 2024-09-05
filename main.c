@@ -20,7 +20,7 @@ typedef struct {
     double time_taken;
     int input_size;
 } SortHistory;
-
+//various values
 SortHistory history[MAX_HISTORY];
 int history_index = 0;
 int *current_dataset = NULL;
