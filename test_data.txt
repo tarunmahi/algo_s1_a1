@@ -1,5 +1,0 @@
-1 0.001 Cycle_Sort
-2 0.002 Selection_Sort
-3 0.004 Quick_Sort
-4 0.000 Shell_Sort
-5 0.000 Odd-Even_Sort

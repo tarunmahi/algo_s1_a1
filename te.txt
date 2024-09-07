@@ -1,5 +1,22 @@
-1 1000 0.001
-2 1000 0.002
-3 1000 0.004
-4 1000 0.000
-5 1000 0.000
+gcc -o sorting_gui main.c random_generator.c sorting_algorithms.c time_measurement.c gnuplot_integration.c -lgdi32
+
+            SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)"Quick Sort");
+            SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)"Bubble Sort");
+            SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)"Merge Sort");
+            SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)"Heap Sort");
+            SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)"Shell Sort");
+            SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)"Odd-Even Sort");
+            SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)"Tree Sort");
+            SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)"Cycle Sort");
+            SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)"Selection Sort");
+
+                                                void bubble_sort(int arr[], int n);
+                                                void merge_sort(int arr[], int l, int r);
+                                                void quick_sort(int arr[], int low, int high);
+                                                void radix_sort(int arr[], int n);
+                                                void heap_sort(int arr[], int n);
+                                                void shell_sort(int arr[], int n);
+                                                void odd_even_sort(int arr[], int n);
+                                                void tree_sort(int arr[], int n);
+                                                void cycle_sort(int arr[], int n);
+                                                void selection_sort(int arr[], int n);
