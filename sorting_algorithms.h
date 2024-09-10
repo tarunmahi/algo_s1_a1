@@ -11,5 +11,6 @@ void odd_even_sort(int arr[], int n);
 void tree_sort(int arr[], int n);
 void cycle_sort(int arr[], int n);
 void selection_sort(int arr[], int n);
+void insertion_sort(int arr[],int n);
 
 #endif

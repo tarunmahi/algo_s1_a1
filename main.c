@@ -636,6 +636,9 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
             SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)"Tree_Sort");
             SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)"Cycle_Sort");
             SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)"Selection_Sort");
+            SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)"insertion_sort");
+            SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)"radix_sort");
+            
             
 
             CreateWindow("BUTTON", "Generate Dataset", WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
@@ -715,7 +718,15 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
                             selected_sort="Selection_Sort";
                             sort_function=selection_sort;
                             break;
-                        // Add other sorting algorithms similarly...
+                        case 9:
+                            selected_sort="insertion_sort";
+                            sort_function=insertion_sort;
+                            break;
+                        case 10:
+                            selected_sort="radix_sort";
+                            sort_function=radix_sort;
+                            break;
+                        
                         default:
                             update_label(hwnd, "Algorithm not implemented.");
                             return 0;

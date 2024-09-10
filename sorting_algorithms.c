@@ -60,30 +60,131 @@ void merge_sort(int arr[], int l, int r) {
         merge(arr, l, m, r);
     }
 }
-
-int partition(int arr[], int low, int high) {
-    int pivot = arr[high];
-    int i = (low - 1);
-
-    for (int j = low; j <= high - 1; j++) {
-        if (arr[j] < pivot) {
-            i++;
-            int temp = arr[i];
-            arr[i] = arr[j];
-            arr[j] = temp;
-        }
-    }
-    int temp = arr[i + 1];
-    arr[i + 1] = arr[high];
-    arr[high] = temp;
-    return (i + 1);
+void swap(int* a, int* b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
 }
 
+// Function to find the median of a small chunk of the array
+int findmedian(int arr[], int low, int high) {
+    // Sort the chunk of the array
+    for (int i = low; i < high - 1; i++) {
+        for (int j = i + 1; j < high; j++) {
+            if (arr[i] > arr[j]) {
+                swap(&arr[i], &arr[j]);
+            }
+        }
+    }
+    return arr[low + (high - low) / 2];  // Return the median element
+}
+
+// Function to partition the array based on the selected pivot
+int partition(int arr[], int low, int high, int median) {
+    // Move the median element to the end
+    for (int i = low; i < high; i++) {
+        if (arr[i] == median) {
+            swap(&arr[i], &arr[high]);
+            break;
+        }
+    }
+
+    int pivotval = arr[high];  // Pivot value is the median of medians
+    int storind = low;
+
+    // Partitioning the array based on pivot
+    for (int i = low; i < high; i++) {
+        if (arr[i] < pivotval) {
+            swap(&arr[storind], &arr[i]);
+            storind++;
+        }
+    }
+    swap(&arr[storind], &arr[high]);  // Placing the pivot in the correct position
+    return storind;
+}
+
+// Function to find the kth smallest element using the median of medians
+int kthsmallest(int arr[], int low, int high, int k) {
+    int n = high - low + 1;
+    int medians[(n + 4) / 5];  // Array to store the medians of groups of 5
+    int medianIdx = 0;
+
+    // Finding the medians of chunks of size 5
+    for (int i = 0; i < n / 5; i++) {
+        int median = findmedian(arr, low + (i * 5), low + (i * 5) + 5);
+        medians[medianIdx++] = median;
+    }
+
+    // If there are remaining elements, find the median for them too
+    if (n % 5 != 0) {
+        int median = findmedian(arr, low + (n / 5) * 5, low + (n / 5) * 5 + (n % 5));
+        medians[medianIdx++] = median;
+    }
+
+    int mom;  // Median of medians
+    if (medianIdx == 1) mom = medians[0];
+    else mom = kthsmallest(medians, 0, medianIdx - 1, medianIdx / 2);
+
+    // Partition the array based on the median of medians and get the pivot index
+    int pivotindex = partition(arr, low, high, mom);
+    int rank = pivotindex - low + 1;
+
+    // Return the kth smallest element or recurse to find it
+    if (rank == k) return arr[pivotindex];
+    else if (rank > k) return kthsmallest(arr, low, pivotindex - 1, k);
+    else return kthsmallest(arr, pivotindex + 1, high, k - rank);
+}
+
+// QuickSort function using the median of medians to select pivot
 void quick_sort(int arr[], int low, int high) {
     if (low < high) {
-        int pi = partition(arr, low, high);
-        quick_sort(arr, low, pi - 1);
-        quick_sort(arr, pi + 1, high);
+        int n = high - low + 1;
+        int median_of_medians = kthsmallest(arr, low, high, (n + 1) / 2);  // Finding the median of medians
+
+        // Partitioning the array and getting the pivot index
+        int pivotindex = partition(arr, low, high, median_of_medians);
+
+        // Recursively sorting the sub-arrays
+        quick_sort(arr, low, pivotindex - 1);
+        quick_sort(arr, pivotindex + 1, high);
+    }
+}
+
+// int partition(int arr[], int low, int high) {
+//     int pivot = arr[high];
+//     int i = (low - 1);
+
+//     for (int j = low; j <= high - 1; j++) {
+//         if (arr[j] < pivot) {
+//             i++;
+//             int temp = arr[i];
+//             arr[i] = arr[j];
+//             arr[j] = temp;
+//         }
+//     }
+//     int temp = arr[i + 1];
+//     arr[i + 1] = arr[high];
+//     arr[high] = temp;
+//     return (i + 1);
+// }
+
+// void quick_sort(int arr[], int low, int high) {
+//     if (low < high) {
+//         int pi = partition(arr, low, high);
+//         quick_sort(arr, low, pi - 1);
+//         quick_sort(arr, pi + 1, high);
+//     }
+// }
+void insertion_sort(int arr[], int n) {
+    for (int i = 1; i < n; i++) {
+        int key = arr[i];
+        int j = i - 1;
+        // Move elements of arr[0..i-1] that are greater than key to one position ahead of their current position
+        while (j >= 0 && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j = j - 1;
+        }
+        arr[j + 1] = key;
     }
 }
 
